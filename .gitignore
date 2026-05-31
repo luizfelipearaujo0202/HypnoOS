@@ -1,6 +1,11 @@
+# build files
 *.o
 *.elf
 *.iso
 *.bin
+
 build.sh
-.vscode
+iso/
+.vscode/
+
+.DS_Store

@@ -3,9 +3,9 @@
 *.elf
 *.iso
 *.bin
+linker.ld
 
 build.sh
-iso/
 .vscode/
 
 .DS_Store

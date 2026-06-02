@@ -41,8 +41,10 @@ char keyboard_map[128] = {
     ',', '.', '/',
 };
 
-void keyboard_c_handler() {
-    unsigned char scancode = inb(0x60);
+void kbhandler_c() {
+    uint8_t scancode = inb(0x60);
+
+    print("Oi!");
 
     if (scancode < 128) {
         char c = keyboard_map[c];

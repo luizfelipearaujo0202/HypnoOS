@@ -7,7 +7,7 @@ extern void keyboard_handler();
 void print_char(char c);
 void print(char* texto);
 
-void HypnoOS_Main() {
+void HypnoOS_Main(uint32_t multiboot_info) {
     outb(0x20, 0x20);
 
     outb(0x20, 0x11);
@@ -33,6 +33,8 @@ void HypnoOS_Main() {
     set_idt_gate(33, (uint32_t)keyboard_handler);
 
     idt_init();
+
+    print("Multiboot Info: 0x");
 
     __asm__ volatile("sti");
 

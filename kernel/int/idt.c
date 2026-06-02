@@ -47,10 +47,12 @@ void kbhandler_c() {
     print("\nExecutou handler!");
 
     if (scancode < 128) {
-        char c = keyboard_map[c];
+        char c = keyboard_map[scancode];
 
         if (c != 0) {
             print_char(c);
+            outb(0x61, inb(0x61) | 0x80);
+            outb(0x61, inb(0x61) & 0x7F);
         }
     }
 }

@@ -97,17 +97,11 @@ void print_char(char c) {
     move_cursor(cursor_x, cursor_y);
 }
 
-extern void print(char* texto) {
+void print(char* texto) {
     int i = 0;
 
     while (texto[i] != '\0') {
         print_char(texto[i]);
         i++;
     }
-}
-
-
-void fake_interrupt() {
-    kbhandler_c();
-    print("\nChegou e saiu!");
 }

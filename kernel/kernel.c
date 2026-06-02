@@ -8,8 +8,6 @@ void print_char(char c);
 void print(char* texto);
 
 void HypnoOS_Main() {
-    __asm__ volatile("cli");
-
     outb(0x20, 0x20);
 
     outb(0x20, 0x11);

@@ -1,5 +1,6 @@
 #include "int/idt.h"
 #include "int/io.h"
+#include "int/idt.c"
 
 extern void isr_default();
 
@@ -96,11 +97,17 @@ void print_char(char c) {
     move_cursor(cursor_x, cursor_y);
 }
 
-void print(char* texto) {
+extern void print(char* texto) {
     int i = 0;
 
     while (texto[i] != '\0') {
         print_char(texto[i]);
         i++;
     }
+}
+
+
+void fake_interrupt() {
+    kbhandler_c();
+    print("\nChegou e saiu!");
 }

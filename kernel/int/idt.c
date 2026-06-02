@@ -6,6 +6,7 @@ struct IDTPointer idt_ptr;
 void print_char(char c);
 
 extern void idt_load(uint32_t);
+extern void print(char* texto);
 
 void set_idt_gate(int n, uint32_t handler) {
     idt[n].offset_low = handler & 0xFFFF;
@@ -43,8 +44,7 @@ char keyboard_map[128] = {
 
 void kbhandler_c() {
     uint8_t scancode = inb(0x60);
-
-    print("Oi!");
+    print("\nExecutou handler!");
 
     if (scancode < 128) {
         char c = keyboard_map[c];

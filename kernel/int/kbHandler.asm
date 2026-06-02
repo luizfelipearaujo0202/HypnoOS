@@ -6,9 +6,6 @@ keyboard_handler:
 
     call kbhandler_c
 
-    mov al, 0x20
-    out 0x20, al
-
     popa
 
     iret

@@ -1,8 +1,8 @@
 #include "int/idt.h"
 #include "int/io.h"
-#include "int/idt.c"
 
 extern void isr_default();
+extern void keyboard_handler();
 
 void print_char(char c);
 void print(char* texto);
@@ -25,19 +25,21 @@ void HypnoOS_Main() {
     outb(0x21, 0xFD); // habilita teclado
     outb(0xA1, 0xFF);
 
-    idt_init();
-
 
     for (int i=0; i < 256; i++) {
         set_idt_gate(i, (uint32_t)isr_default);
     }
     
+    set_idt_gate(33, (uint32_t)keyboard_handler);
+
+    idt_init();
+
     __asm__ volatile("sti");
 
     print("HypnoOS Kernel has started.");
 
     while (1) {
-
+        __asm__ volatile("hlt");
     }
 }
 
@@ -95,7 +97,7 @@ void print_char(char c) {
     move_cursor(cursor_x, cursor_y);
 }
 
-void print(char* texto) {
+extern void print(char* texto) {
     int i = 0;
 
     while (texto[i] != '\0') {

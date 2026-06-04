@@ -90,7 +90,6 @@ void print_char(char c) {
 
     else if (c == '\b') {
         if (cursor_x > 0) cursor_x--;
-        vga[cursor_y * 80 + cursor_x] = (0x0F << 8) | ' ';
     }
     else if (c == '\n') {
         print("ENTER");

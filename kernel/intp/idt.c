@@ -40,7 +40,6 @@ char keyboard_map[128] = {
 static int shift_pressed = 0;
 
 void kbhandler_c() {
-    //print("KEY");
     uint8_t scancode = inb(0x60);
     if (terminal_state.busy) {
         goto end;

@@ -6,6 +6,8 @@ extern void print_char(char c);
 
 extern int strlen(char *texto);
 
+extern void kbhandler_c();
+
 static char buffer[128];
 static int i = 0;
 
@@ -21,15 +23,15 @@ char* terminal_readline(char* prompt) {
 
     while(!(line_ready)) {
         if (c == '\b') {
-             if (i > strlen(prompt)) {
+            print_char("B");
+            if (i > strlen(prompt)) {
+                print_char('\b');
                 i--;
-                print_char('\b');
-                print_char(' ');
-                print_char('\b');
-             }
+            }
         }
 
         else if (c == '\n') {
+            print("N");
             buffer[i] = '\0';
             line_ready = true;
         }

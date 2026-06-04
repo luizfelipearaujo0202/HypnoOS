@@ -1,8 +1,12 @@
-#include "int/idt.h"
-#include "int/io.h"
+#include "include/bool.h"
+#include "include/terminal.h"
+#include "intp/idt.h"
+#include "intp/io.h"
 
 extern void isr_default();
 extern void keyboard_handler();
+
+extern char* terminal_readline(char* prompt);
 
 void print_char(char c);
 void print(char* texto);
@@ -34,13 +38,17 @@ void HypnoOS_Main(uint32_t multiboot_info) {
 
     idt_init();
 
-    print("Multiboot Info: 0x");
+    // ======= VARIÁVEIS =======
 
     __asm__ volatile("sti");
 
-    print("HypnoOS Kernel has started.");
+    print("HypnoOS Kernel has started.\n");
+    print("---------------------------");
+    print_char('\n');
 
     while (1) {
+        terminal_readline("HypnoOS >> ");
+        terminal_state.busy = false;
         __asm__ volatile("hlt");
     }
 }
@@ -84,11 +92,19 @@ void print_char(char c) {
         if (cursor_x > 0) cursor_x--;
         vga[cursor_y * 80 + cursor_x] = (0x0F << 8) | ' ';
     }
+    else if (c == '\n') {
+        print("ENTER");
+    }
+
+    else if (c < 32) {
+        return;
+    }
 
     else {
         vga[cursor_y * 80 + cursor_x] = (0x0F << 8) | c;
         cursor_x++;
     }
+
 
     if (cursor_x >= 80) {
         cursor_x = 0;
@@ -99,7 +115,14 @@ void print_char(char c) {
     move_cursor(cursor_x, cursor_y);
 }
 
-extern void print(char* texto) {
+void print_hex8(uint8_t value) {
+    char hex[] = "0123456789ABCDEF";
+
+    print_char(hex[value >> 4]);
+    print_char(hex[value & 0x0F]);
+}
+
+void print(char* texto) {
     int i = 0;
 
     while (texto[i] != '\0') {

@@ -1,11 +1,19 @@
 #include "idt.h"
 #include "io.h"
+#include "../include/bool.h"
+#include "../include/terminal.h"
+
+TerminalState terminal_state = {false, 0};
 
 struct IDTEntry idt[256];
 struct IDTPointer idt_ptr;
 
-void print_char(char c);
+extern void print_char(char c);
+extern void print(char* texto);
+extern void print_hex8(uint8_t value);
+
 extern void idt_load(uint32_t);
+extern void terminal_input(char c);
 
 void set_idt_gate(int n, uint32_t handler) {
     idt[n].offset_low = handler & 0xFFFF;
@@ -32,13 +40,21 @@ char keyboard_map[128] = {
 static int shift_pressed = 0;
 
 void kbhandler_c() {
+    //print("KEY");
     uint8_t scancode = inb(0x60);
-
+    if (terminal_state.busy) {
+        goto end;
+    }
     if (!(scancode & 0x80)) {
         char c = keyboard_map[scancode];
 
+        //print_char('{');
+        //print_hex8(scancode);
+        //print_char('}');
+
         if (c != 0) {
             print_char(c);
+            // terminal_input(c);
         }
     }
     
@@ -48,10 +64,8 @@ void kbhandler_c() {
     }
 
     // ACK + EOI
-    uint8_t temp = inb(0x61);
-    outb(0x61, temp | 0x80);
-    outb(0x61, temp & 0x7F);
-    outb(0x20, 0x20);
+    end:
+        outb(0x20, 0x20);
 }
 
 

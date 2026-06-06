@@ -55,35 +55,30 @@ void strcat(char *str1, char *str2) {
     str1[i] = '\0';
 }
 
-int split(char *texto, char *argv[15]) {
-    int i = 0;      // lê texto
-    int w = 0;      // palavra atual (argv)
-    int j = 0;      // letra dentro da palavra
+int split(char *line, char **argv) {
+    int argc = 0;
 
-    static char word[32]; // buffer da palavra
+    while (*line){
 
-    while (texto[i] != '\0') {
-
-        if (texto[i] != ' ') {
-            word[j] = texto[i];
-            j++;
-        } 
-        else {
-            word[j] = '\0';
-            argv[w] = word;
-            w++;
-            j = 0;
+        while((*line) == ' ') {
+            line ++;
         }
 
-        i++;
+        if (*line == '\0') {
+            break;
+        }
+
+        argv[argc++] = line;
+
+        while (*line && *line != ' ') {line ++;}
+
+        if (*line){
+            *line = '\0';
+            line++;
+        }
     }
 
-    // última palavra
-    word[j] = '\0';
-    argv[w] = word;
-    w++;
-
-    return w; // quantidade de palavras
+    return argc;
 }
 
 #endif

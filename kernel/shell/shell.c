@@ -3,19 +3,46 @@
 extern void print(char* texto);
 
 void shell_execute(char *line) {
-    print("\nCHEGOU NO SHELL\n");
+    char *commands[] = {"echo", "test", "help", "ping", "clear", "kmalloc"};
+
     char *argv[15];
 
     int argc = split(line, argv);
 
-    if (strcmp(argv[0], "echo") == 0) {
-        print(argv[1]);
+    if (argc == 0) {
+        return;
     }
 
-    else if (strcmp(argv[0], "clear") == 0) {
-    }
+    if (argc >= 1) {
+        print("\n");
 
-    else {
-        print("command not found\n");
+        if (strcmp(argv[0], "echo") == 0 || strcmp(argv[0], "test") == 0) {
+            for (int i = 1; i < argc; i++) {
+                print(argv[i]);
+
+                if (i < argc - 1) {
+                    print(" ");
+                }
+            }
+        }
+
+        else if (strcmp(argv[0], "help") == 0) {
+            print("Commands: \n");
+            for (int i = 0; i < sizeof(commands) / sizeof(commands[0]); i++) {
+                print(commands[i]);
+            }
+        }
+
+        else if (strcmp(argv[0], "ping") == 0) {
+            print("Pong!");
+        }
+
+        else if (strcmp(argv[0], "clear") == 0) {
+            print("Cleared");
+        }
+
+        else {
+            print("command not found");
+        }
     }
 }

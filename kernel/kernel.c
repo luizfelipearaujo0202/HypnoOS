@@ -8,6 +8,8 @@ extern void keyboard_handler();
 
 extern char* terminal_readline(char* prompt);
 
+extern void* kmalloc(unsigned int size);
+
 void print_char(char c);
 void print(char* texto);
 
@@ -47,7 +49,8 @@ void HypnoOS_Main(uint32_t multiboot_info) {
     print_char('\n');
 
     while (1) {
-        terminal_readline("HypnoOS >> ");
+        kmalloc(5);
+        terminal_readline("\n\nHypnoOS >> ");
         terminal_state.busy = false;
         __asm__ volatile("hlt");
     }

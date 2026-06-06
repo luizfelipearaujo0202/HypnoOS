@@ -16,6 +16,6 @@ void shell_execute(char *line) {
     }
 
     else {
-        print("command not found");
+        print("command not found\n");
     }
 }

@@ -53,7 +53,7 @@ void kbhandler_c() {
 
         if (c != 0) {
             print_char(c);
-            // terminal_input(c);
+            terminal_input(c);
         }
     }
     

@@ -10,42 +10,37 @@ extern void kbhandler_c();
 
 static char buffer[128];
 static int i = 0;
+static bool line_ready = false;
 
 char* terminal_readline(char* prompt) {
-    print("\nTA NO TERMINAL READLINE\n");
-
-    bool line_ready = false;
+    line_ready = false;
     terminal_state.busy = false;
-
-    char c;
+    i = 0;
 
     print(prompt);
 
-    while(!(line_ready)) {
-        if (c == '\b') {
-            print_char("B");
-            if (i > strlen(prompt)) {
-                print_char('\b');
-                i--;
-            }
-        }
-
-        else if (c == '\n') {
-            print("N");
-            buffer[i] = '\0';
-            line_ready = true;
-        }
-
-        else {
-            if (i < 127) {
-                buffer[i] = c;
-                print_char(buffer[i]);
-                print(buffer);
-                i++;
-            }
-        }
+    while (!line_ready) {
+        __asm__ volatile("hlt");
     }
+
     shell_execute(buffer);
     i = 0;
     return buffer;
+}
+
+void terminal_input(char c) {
+    if (c == '\n') {
+        buffer[i] = '\0';
+        line_ready = true;
+    }
+    else if (c == '\b') {
+        if (i > 0) i--;
+        buffer[i] = '\0';
+    }
+    else {
+        if (i < 127) {
+            buffer[i] = c;
+            i++;
+        }
+    }
 }

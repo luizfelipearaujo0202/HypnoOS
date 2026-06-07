@@ -49,7 +49,7 @@ void HypnoOS_Main(uint32_t multiboot_info) {
     print_char('\n');
 
     while (1) {
-        kmalloc(5);
+        // kmalloc(5);
         terminal_readline("\n\nHypnoOS >> ");
         terminal_state.busy = false;
         __asm__ volatile("hlt");

@@ -3,7 +3,7 @@
 extern void print(char* texto);
 
 void shell_execute(char *line) {
-    char *commands[] = {"echo", "test", "help", "ping", "clear", "kmalloc"};
+    char *commands[] = {"echo", "test", "help", "ping", "clear"};
 
     char *argv[15];
 
@@ -30,6 +30,7 @@ void shell_execute(char *line) {
             print("Commands: \n");
             for (int i = 0; i < sizeof(commands) / sizeof(commands[0]); i++) {
                 print(commands[i]);
+                print("\n");
             }
         }
 

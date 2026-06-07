@@ -127,6 +127,10 @@ void print_hex8(uint8_t value) {
     print_char(hex[value & 0x0F]);
 }
 
+void print_int(int valor) {
+    print_char(valor);
+}
+
 void print(char* texto) {
     int i = 0;
 

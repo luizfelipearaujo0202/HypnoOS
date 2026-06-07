@@ -6,6 +6,7 @@ typedef struct Block {
 #define HEAP_SIZE (1024 * 1024)
 
 extern void print(char* texto);
+extern void print_int(int valor)
 
 
 void heap_debug();
@@ -27,19 +28,20 @@ void* kmalloc(unsigned int size) {
         ptr = ptr + sizeof(Block) + block->size;
 
         if (heap_end + sizeof(Block) + size > HEAP_SIZE) return 0;
-
-        Block* block = (Block*) (heap + heap_end);
-
-        block->size = size;
-        block->free = 0;
-
-        void* data = (void*) (heap + heap_end + sizeof(Block));
-
-        heap_end += sizeof(Block) + size;
-
-        heap_debug();
-        return data;
     }
+
+    Block* new_block = (Block*) (heap + heap_end);
+
+    new_block->size = size;
+    new_block->free = 0;
+
+    void* data = heap + heap_end + sizeof(Block);
+
+    heap_end += sizeof(Block) + size;
+
+    heap_debug();
+    return data;
+    
 }
 
 void heap_debug() {
@@ -55,7 +57,7 @@ void heap_debug() {
         else
             print("[USED ");
         
-        print("size="), print(block->size);
+        print("size="), print_int(block->size);
 
     ptr = ptr + sizeof(Block) + block->size;
 

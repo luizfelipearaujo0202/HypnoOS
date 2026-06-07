@@ -6,7 +6,7 @@ typedef struct Block {
 #define HEAP_SIZE (1024 * 1024)
 
 extern void print(char* texto);
-extern void print_int(int valor)
+extern void print_int(int valor);
 
 
 void heap_debug();
@@ -57,7 +57,7 @@ void heap_debug() {
         else
             print("[USED ");
         
-        print("size="), print_int(block->size);
+        print("size="), print_int(block->size), print("]");
 
     ptr = ptr + sizeof(Block) + block->size;
 

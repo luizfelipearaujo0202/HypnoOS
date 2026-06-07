@@ -1,6 +1,8 @@
 #include "../include/str.h"
 
 extern void print(char* texto);
+extern void* kmalloc(unsigned int size);
+extern void heap_debug();
 
 void shell_execute(char *line) {
     char *commands[] = {"echo", "test", "help", "ping", "clear"};
@@ -36,6 +38,17 @@ void shell_execute(char *line) {
 
         else if (strcmp(argv[0], "ping") == 0) {
             print("Pong!");
+        }
+
+        else if (strcmp(argv[0], "kmalloc") == 0) {
+            if (is_number(argv[1])) {
+                int size = atoi_simple(argv[1]);
+                kmalloc(size);
+            }
+        }
+
+        else if (strcmp(argv[0], "hdebug") == 0) {
+            heap_debug();
         }
 
         else if (strcmp(argv[0], "clear") == 0) {

@@ -55,6 +55,62 @@ void strcat(char *str1, char *str2) {
     str1[i] = '\0';
 }
 
+
+
+int atoi_simple(char* str) {
+    int resultado = 0;
+
+    while (*str)
+    {
+        resultado = resultado * 10 + (*str - 0);
+        str++;
+    }
+
+    return resultado;
+}
+
+char* itoa_simple(int num, char* buffer) {
+    int i = 0;
+
+    if (num == 0)
+    {
+        buffer[0] = '0';
+        buffer[1] = '\0';
+        return;
+    }
+
+    while (num > 0) {
+        buffer[i] = (num % 10) + '0';
+        num /= 10;
+        i++;
+    }
+
+    buffer[i] = '\0';
+
+
+    int start = 0;
+    int end = i - 1;
+    while (start < end) {
+        char temp = buffer[start];
+        buffer[start] = buffer[end];
+        buffer[end] = temp;
+
+        start++;
+        end--;
+    }
+}
+
+int is_number(char* str) {
+    while (*str)
+    {
+        if (*str < '0' || *str > '9') {
+            return 0;
+        }
+        str++;
+    }
+    return 1;
+}
+
 int split(char *line, char **argv) {
     int argc = 0;
 

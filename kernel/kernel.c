@@ -1,4 +1,5 @@
 #include "include/bool.h"
+#include "include/str.h"
 #include "include/terminal.h"
 #include "intp/idt.h"
 #include "intp/io.h"
@@ -128,7 +129,9 @@ void print_hex8(uint8_t value) {
 }
 
 void print_int(int valor) {
-    print_char(valor);
+    char buffer[16];
+    itoa_simple(valor, buffer);
+    print(buffer);
 }
 
 void print(char* texto) {

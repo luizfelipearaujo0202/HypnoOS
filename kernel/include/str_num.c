@@ -1,6 +1,3 @@
-#ifndef cmp
-#define cmp
-
 int strcmp(char *s1, char *s2) {
 
     int i = 0;
@@ -62,7 +59,7 @@ int atoi_simple(char* str) {
 
     while (*str)
     {
-        resultado = resultado * 10 + (*str - 0);
+        resultado = resultado * 10 + (*str - '0');
         str++;
     }
 
@@ -111,6 +108,13 @@ int is_number(char* str) {
     return 1;
 }
 
+int numcmp(int num, int num2) {
+    if (num < num2) {
+        return 1;
+    }
+    else return 0;
+}
+
 int split(char *line, char **argv) {
     int argc = 0;
 
@@ -136,5 +140,3 @@ int split(char *line, char **argv) {
 
     return argc;
 }
-
-#endif

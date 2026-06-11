@@ -1,13 +1,14 @@
-#include "../include/str.h"
+#include "../internal/context_trace/kernel_ctx.h"
+#include "../include/str_num.h"
+#include "../internal/mem.h"
 
 extern void print(char* texto);
-extern void* kmalloc(unsigned int size);
-extern void heap_debug();
+extern void print_int(int valor);
 
 void shell_execute(char *line) {
     char *commands[] = {"echo", "test", "help", "ping", "clear"};
 
-    char *argv[15];
+    char *argv[30];
 
     int argc = split(line, argv);
 
@@ -41,9 +42,28 @@ void shell_execute(char *line) {
         }
 
         else if (strcmp(argv[0], "kmalloc") == 0) {
-            if (is_number(argv[1])) {
-                int size = atoi_simple(argv[1]);
-                kmalloc(size);
+            for (int i = 1; i < argc; i++) {
+                if (is_number(argv[i])) {
+                    int size = atoi_simple(argv[i]);
+                    mem_alloc(size);
+                }
+            }
+        }
+
+        else if (strcmp(argv[0], "kfree") == 0) {
+            for (int i = 1; i < argc; i++) {
+                if (is_number(argv[i])) {
+                    int id = atoi_simple(argv[i]);
+                    mem_free_by_id(id);
+                }
+            }
+        }
+            else if (strcmp(argv[1], "block") == 0) {
+                for (int i = 2; i < argc; i++) {
+                if (is_number(argv[i])) {
+                    int id = atoi_simple(argv[i]);
+                    mem_free_by_id(id);
+                }
             }
         }
 
@@ -51,8 +71,20 @@ void shell_execute(char *line) {
             heap_debug();
         }
 
+        else if (strcmp(argv[0], "hstats") == 0) {
+            heap_status();
+        }
+
+        else if (strcmp(argv[0], "ctx") == 0 || strcmp(argv[0], "trace") == 0) {
+            ctx_print();
+        }
+
         else if (strcmp(argv[0], "clear") == 0) {
+            for (int i = 0; i < 80; i++) {
+                print("\n");
+            }
             print("Cleared");
+            print("\n");
         }
 
         else {

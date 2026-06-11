@@ -1,3 +1,3 @@
 # Include
 
-Kernel utils
+Shared header files used across the kernel

@@ -1,5 +1,5 @@
 #include "include/bool.h"
-#include "include/str.h"
+#include "include/str_num.h"
 #include "include/terminal.h"
 #include "intp/idt.h"
 #include "intp/io.h"
@@ -132,6 +132,19 @@ void print_int(int valor) {
     char buffer[16];
     itoa_simple(valor, buffer);
     print(buffer);
+}
+
+void print_address(void* p) {
+    unsigned int addr = (unsigned int)p;
+
+    char hex[] = "0123456789ABCDEF";
+
+    print("0x");
+
+    for (int i = 28; i >= 0; i -= 4) {
+        unsigned int nibble = (addr >> i) & 0xF;
+        print_char(hex[nibble]);
+    }
 }
 
 void print(char* texto) {

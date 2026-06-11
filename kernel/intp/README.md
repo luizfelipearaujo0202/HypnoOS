@@ -1,3 +1,3 @@
 # Intp
 
-Hardware interrupts
+Hardware interrupts handling

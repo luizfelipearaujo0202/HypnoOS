@@ -1,5 +1,5 @@
-#include "../internal/context_trace/kernel_ctx.h"
-#include "../include/bool.h"
+#include "../../internal/context_trace/kernel_ctx.h"
+#include "../../include/bool.h"
 
 typedef enum {
     BLOCK_OK = 0,

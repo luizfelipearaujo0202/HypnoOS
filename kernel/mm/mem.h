@@ -7,4 +7,7 @@ void heap_debug();
 void heap_status();
 void merge();
 
+void page_init();
+int page_alloc(size);
+
 #endif

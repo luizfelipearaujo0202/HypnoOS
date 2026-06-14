@@ -1,6 +1,6 @@
 #include "../internal/context_trace/kernel_ctx.h"
 #include "../include/str_num.h"
-#include "../internal/mem.h"
+#include "../mm/mem.h"
 
 extern void print(char* texto);
 extern void print_int(int valor);
@@ -46,6 +46,19 @@ void shell_execute(char *line) {
                 if (is_number(argv[i])) {
                     int size = atoi_simple(argv[i]);
                     mem_alloc(size);
+                }
+            }
+        }
+
+        else if (strcmp(argv[0], "palloc") == 0) {
+            if (is_number(argv[1])) {
+                int size = argv[1];
+                int pages = page_alloc(size);
+
+                if (pages <= 0) {
+                    print("\n");
+                } else {
+                print("Alocatted "), print_int(pages), print(" pages.");
                 }
             }
         }

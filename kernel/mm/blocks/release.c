@@ -1,6 +1,6 @@
-#include "../internal/context_trace/kernel_ctx.h"
-#include "../include/bool.h"
-#include "../internal/mem.h"
+#include "../../internal/context_trace/kernel_ctx.h"
+#include "../../include/bool.h"
+#include "../mem.h"
 
 typedef enum {
     BLOCK_OK = 0,
@@ -27,7 +27,7 @@ void* mem_free(unsigned char* ptr) {
     ctx_push("ENTER mem_free");
     print("\nto rodano 2\n");
     Block* block = (Block*) ptr;
-    block = ptr - sizeof(Block);
+    block = (Block*)(ptr - sizeof(Block));
 
     unsigned char* pointer = heap;
     int error = 0;

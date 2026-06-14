@@ -1,5 +1,4 @@
-#include "../include/bool.h"
-
+#include "../../include/bool.h"
 typedef enum {
     BLOCK_OK = 0,
     BLOCK_CORRUPTED = 1

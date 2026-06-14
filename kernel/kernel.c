@@ -4,12 +4,12 @@
 #include "intp/idt.h"
 #include "intp/io.h"
 
+#include "mm/mem.h"
+
 extern void isr_default();
 extern void keyboard_handler();
 
 extern char* terminal_readline(char* prompt);
-
-extern void* kmalloc(unsigned int size);
 
 void print_char(char c);
 void print(char* texto);
@@ -46,11 +46,9 @@ void HypnoOS_Main(uint32_t multiboot_info) {
     __asm__ volatile("sti");
 
     print("HypnoOS Kernel has started.\n");
-    print("---------------------------");
-    print_char('\n');
-
+    page_init();
+    print("\n---------------------------");
     while (1) {
-        // kmalloc(5);
         terminal_readline("\n\nHypnoOS >> ");
         terminal_state.busy = false;
         __asm__ volatile("hlt");

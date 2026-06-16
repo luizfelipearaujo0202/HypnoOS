@@ -46,7 +46,7 @@ void HypnoOS_Main(uint32_t multiboot_info) {
     __asm__ volatile("sti");
 
     print("HypnoOS Kernel has started.\n");
-    page_init();
+    TerrInit();
     print("\n---------------------------");
     while (1) {
         terminal_readline("\n\nHypnoOS >> ");

@@ -1,31 +1,60 @@
-#include "../../include/bool.h"
+#include "../../../include/bool.h"
+#include "../../../internal/context_trace/kernel_ctx.h"
+
+#define HEAP_SIZE (4096 * 4096)
+
+unsigned int heap[HEAP_SIZE];
+unsigned char* end = heap + HEAP_SIZE;
+
+typedef struct Territory {
+    char name[32];
+    unsigned char* start;
+
+    int priority;
+
+    unsigned int size;
+    unsigned int used;
+    unsigned int limit;
+
+    bool active;
+    
+} Territory;
+
 
 typedef enum {
     BLOCK_OK = 0,
     BLOCK_CORRUPTED = 1
 } BlockState;
 
+#define BLOCK_MAGIC 0xDEADBEEF
+
 typedef struct Block {
+    Territory territory;
+
     unsigned int magic;
+
     unsigned int id;
+
     unsigned int size;
     unsigned char free;
+
     BlockState state;
 } Block;
-
-#define HEAP_SIZE (1024 * 1024)
 
 extern void print(char* texto);
 extern void print_int(int valor);
 
-unsigned char heap[HEAP_SIZE];
-unsigned int heap_end = 0;
-
 unsigned int active_blocks = 1; // blocos ativos
 
-void* mem_alloc(unsigned int size) {
+void* mem_alloc(unsigned int size, unsigned char* terr_name) {
     ctx_push("mem_alloc");
-    unsigned char* ptr = heap;
+
+    
+
+    unsigned char* ptr = 0;
+    Territory* t = (Territory*) ptr;
+    ptr = t->start;
+
     int MIN_BLOCK = 16;
 
     Block* chosen = NULL;
@@ -34,7 +63,7 @@ void* mem_alloc(unsigned int size) {
 
     print("Procurando...\n");
 
-    while (ptr < heap + heap_end) {
+    while (ptr < t->size) {
 
         if (heap_end + sizeof(Block) + size > HEAP_SIZE)
             return 0;

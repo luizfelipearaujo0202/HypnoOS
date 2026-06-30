@@ -1,24 +1,11 @@
-#include "../../../include/bool.h"
-#include "../../../internal/context_trace/kernel_ctx.h"
+#include "../../include/bool.h"
+#include "../../internal/context_trace/kernel_ctx.h"
+#include "context.h"
 
 #define HEAP_SIZE (4096 * 4096)
 
 unsigned int heap[HEAP_SIZE];
-unsigned char* end = heap + HEAP_SIZE;
-
-typedef struct Territory {
-    char name[32];
-    unsigned char* start;
-
-    int priority;
-
-    unsigned int size;
-    unsigned int used;
-    unsigned int limit;
-
-    bool active;
-    
-} Territory;
+unsigned char* heap_end = heap + HEAP_SIZE;
 
 
 typedef enum {
@@ -29,8 +16,6 @@ typedef enum {
 #define BLOCK_MAGIC 0xDEADBEEF
 
 typedef struct Block {
-    Territory territory;
-
     unsigned int magic;
 
     unsigned int id;
@@ -49,11 +34,7 @@ unsigned int active_blocks = 1; // blocos ativos
 void* mem_alloc(unsigned int size, unsigned char* terr_name) {
     ctx_push("mem_alloc");
 
-    
-
     unsigned char* ptr = 0;
-    Territory* t = (Territory*) ptr;
-    ptr = t->start;
 
     int MIN_BLOCK = 16;
 
@@ -63,7 +44,7 @@ void* mem_alloc(unsigned int size, unsigned char* terr_name) {
 
     print("Procurando...\n");
 
-    while (ptr < t->size) {
+    while (ptr < HEAP_SIZE) {
 
         if (heap_end + sizeof(Block) + size > HEAP_SIZE)
             return 0;

@@ -20,7 +20,7 @@ Command commands[] = {
     {"ping", ping},
     {"trace", ctx_print},
     {"ctx", ctx_print},
-    // {"mem_alloc", mem_alloc}
+    {"malloc", mem_alloc}
 };
 
 void execute_command(char* cmd) {

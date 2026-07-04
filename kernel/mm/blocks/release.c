@@ -1,29 +1,12 @@
 #include "../../internal/context_trace/kernel_ctx.h"
 #include "../../include/bool.h"
 #include "../mem.h"
-
-typedef enum {
-    BLOCK_OK = 0,
-    BLOCK_CORRUPTED = 1
-} BlockState;
-typedef struct Block {
-    unsigned int magic;
-    unsigned int id;
-    unsigned int size;
-    unsigned char free;
-    BlockState state;
-} Block;
-
-#define HEAP_SIZE (1024 * 1024)
+#include "../../internal/mem_int.h"
 
 extern void print(char* texto);
 extern void print_int(int valor);
 
-extern unsigned char heap[HEAP_SIZE];
-extern unsigned int heap_end;
-
-
-void* mem_free(unsigned char* ptr) {
+void mem_free(unsigned char* ptr) {
     ctx_push("ENTER mem_free");
     print("\nto rodano 2\n");
     Block* block = (Block*) ptr;

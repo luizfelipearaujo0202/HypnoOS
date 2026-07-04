@@ -1,30 +1,10 @@
 #include "../../internal/context_trace/kernel_ctx.h"
 #include "../../include/bool.h"
-
-typedef enum {
-    BLOCK_OK = 0,
-    BLOCK_CORRUPTED = 1
-} BlockState;
-typedef struct Block {
-    unsigned int magic;
-    unsigned int id;
-    unsigned int size;
-    unsigned char free;
-    BlockState state;
-} Block;
-
-#define HEAP_SIZE (1024 * 1024)
+#include "../../internal/mem_int.h"
 
 extern void print(char* texto);
 extern void print_int(int valor);
 extern void print_address(void* p);
-
-extern unsigned char heap[HEAP_SIZE];
-extern unsigned int heap_end;
-
-extern unsigned int active_blocks; // blocos ativos
-
-
 
 void heap_debug() {
     ctx_push("ENTER heap_debug");

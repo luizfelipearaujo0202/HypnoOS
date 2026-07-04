@@ -1,40 +1,15 @@
 #include "../../include/bool.h"
 #include "../../internal/context_trace/kernel_ctx.h"
 #include "context.h"
-
-#define HEAP_SIZE (4096 * 4096)
-
-unsigned int heap[HEAP_SIZE];
-unsigned char* heap_end = heap + HEAP_SIZE;
-
-
-typedef enum {
-    BLOCK_OK = 0,
-    BLOCK_CORRUPTED = 1
-} BlockState;
-
-#define BLOCK_MAGIC 0xDEADBEEF
-
-typedef struct Block {
-    unsigned int magic;
-
-    unsigned int id;
-
-    unsigned int size;
-    unsigned char free;
-
-    BlockState state;
-} Block;
+#include "../../internal/mem_int.h"
 
 extern void print(char* texto);
 extern void print_int(int valor);
 
-unsigned int active_blocks = 1; // blocos ativos
-
 void* mem_alloc(unsigned int size, unsigned char* terr_name) {
     ctx_push("mem_alloc");
 
-    unsigned char* ptr = 0;
+    unsigned char* ptr = heap;
 
     int MIN_BLOCK = 16;
 
@@ -44,10 +19,7 @@ void* mem_alloc(unsigned int size, unsigned char* terr_name) {
 
     print("Procurando...\n");
 
-    while (ptr < HEAP_SIZE) {
-
-        if (heap_end + sizeof(Block) + size > HEAP_SIZE)
-            return 0;
+    while (ptr < heap + heap_end) {
 
         Block* block = (Block*) ptr;
 
@@ -128,6 +100,10 @@ void* mem_alloc(unsigned int size, unsigned char* terr_name) {
 
         ctx_push("EXIT mem_alloc");
         return (void*)((unsigned char*)chosen + sizeof(Block));
+    }
+
+    if (heap_end + sizeof(Block) + size > HEAP_SIZE) {
+        return 0;
     }
 
     Block* new_block = (Block*)(heap + heap_end);

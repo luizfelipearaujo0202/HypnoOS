@@ -1,22 +1,6 @@
 
 #include "../../include/bool.h"
-
-typedef enum {
-    BLOCK_OK = 0,
-    BLOCK_CORRUPTED = 1
-} BlockState;
-typedef struct Block {
-    unsigned int magic;
-    unsigned int id;
-    unsigned int size;
-    unsigned char free;
-    BlockState state;
-} Block;
-
-#define HEAP_SIZE (1024 * 1024)
-
-static unsigned char heap[HEAP_SIZE];
-static unsigned int heap_end = 0;
+#include "../../internal/mem_int.h"
 
 
 bool heap_check_block(Block* b, unsigned char* heap_start, unsigned char* heap_end) {

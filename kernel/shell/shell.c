@@ -45,7 +45,7 @@ void shell_execute(char *line) {
             for (int i = 1; i < argc; i++) {
                 if (is_number(argv[i])) {
                     int size = atoi_simple(argv[i]);
-                    // mem_alloc(size);
+                    mem_alloc(size);
                 }
             }
         }
@@ -67,7 +67,7 @@ void shell_execute(char *line) {
             for (int i = 1; i < argc; i++) {
                 if (is_number(argv[i])) {
                     int id = atoi_simple(argv[i]);
-                    // mem_free_by_id(id);
+                    mem_free_by_id(id);
                 }
             }
         }
@@ -75,17 +75,17 @@ void shell_execute(char *line) {
                 for (int i = 2; i < argc; i++) {
                 if (is_number(argv[i])) {
                     int id = atoi_simple(argv[i]);
-                    // mem_free_by_id(id);
+                    mem_free_by_id(id);
                 }
             }
         }
 
         else if (strcmp(argv[0], "hdebug") == 0) {
-            //heap_debug();
+            heap_debug();
         }
 
         else if (strcmp(argv[0], "hstats") == 0) {
-            //heap_status();
+            heap_status();
         }
 
         else if (strcmp(argv[0], "ctx") == 0 || strcmp(argv[0], "trace") == 0) {

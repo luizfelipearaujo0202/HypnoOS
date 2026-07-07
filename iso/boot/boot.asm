@@ -1,9 +1,16 @@
+MAGIC 0x1BADB002
+
+FLAG_VIDEO equ (1 << 2)
+FLAGS equ FLAG_VIDEO
+
+CHECKSUM equ -(MAGIC + FLAGS)
+
 section .multiboot
 align 4
 
-dd 0x1BADB002
-dd 0x0
-dd -(0x1BADB002 + 0x0)
+dd MAGIC
+dd FLAGS
+dd CHECKSUM
 
 section .text
 global start

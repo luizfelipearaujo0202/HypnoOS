@@ -2,11 +2,17 @@
 #include "../../internal/context_trace/kernel_ctx.h"
 #include "context.h"
 #include "../../internal/mem_int.h"
+#include "../mem.h"
 
 extern void print(char* texto);
 extern void print_int(int valor);
 
-void* mem_alloc(unsigned int size, unsigned char* terr_name) {
+unsigned char heap[HEAP_SIZE];
+unsigned int heap_end = 0;
+
+unsigned int active_blocks = 1;
+
+void* mem_alloc(unsigned int size) {
     ctx_push("mem_alloc");
 
     unsigned char* ptr = heap;

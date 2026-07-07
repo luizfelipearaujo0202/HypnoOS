@@ -4,8 +4,6 @@
 #include "intp/idt.h"
 #include "intp/io.h"
 
-#include "mm/mem.h"
-
 extern void isr_default();
 extern void keyboard_handler();
 
@@ -13,6 +11,15 @@ extern char* terminal_readline(char* prompt);
 
 void print_char(char c);
 void print(char* texto);
+
+typedef struct
+{
+    uint32_t* address;
+    uint32_t width;
+    uint32_t height;
+    uint32_t pitch;
+    uint8_t bpp;
+} Framebuffer;
 
 void HypnoOS_Main(uint32_t multiboot_info) {
     outb(0x20, 0x20);

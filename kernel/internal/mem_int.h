@@ -5,12 +5,12 @@
 
 #define HEAP_SIZE (4096 * 4096)
 
-unsigned char heap[HEAP_SIZE];
-unsigned int heap_end = 0;
+extern unsigned char heap[HEAP_SIZE];
+extern unsigned int heap_end;
 
 // BLOCKS
 
-unsigned int active_blocks = 1;
+extern unsigned int active_blocks;
 
 typedef enum {
     BLOCK_OK = 0,
